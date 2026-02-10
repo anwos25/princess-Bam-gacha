@@ -165,3 +165,6 @@ updateRollUI();
 function toggleRates(){
   document.getElementById("ratePanel").classList.toggle("hidden");
 }
+document.getElementById("gachaBtn").addEventListener("click", gacha);
+document.getElementById("rateBtn").addEventListener("click", toggleRates);
+document.getElementById("closePopupBtn").addEventListener("click", closePopup);

@@ -12,11 +12,11 @@
 <body>
 
 <!-- popup -->
-<div id="popup" class="popup hidden" onclick="closePopup()">
-  <div class="popup-card" onclick="event.stopPropagation()">
+<div id="popup" class="popup hidden">
+  <div class="popup-card">
     <h3 id="popup-title"></h3>
     <p id="popup-text"></p>
-    <button onclick="closePopup()">โอเค 🩷</button>
+    <button id="closePopupBtn">โอเค 🩷</button>
   </div>
 </div>
 
@@ -25,12 +25,13 @@
   <p>เค้าทำอันนี้ไว้ให้แบมมเยยย 🩷</p>
 
   <div class="card">
-    <button onclick="gacha()">🎁 จุ่ม 💗</button>
+    <button id="gachaBtn">🎁 จุ่ม 💗</button>
     <div class="roll-box">
   🎲 สิทธิจุ่มคงเหลือ: <span id="rolls">1</span> ครั้ง
 </div>
 
-    <button onclick="toggleRates()">📜 ดูเรต & ของทั้งหมด</button>
+    <button id="rateBtn">📜 ดูเรต & ของทั้งหมด</button>
+
 
 <div id="ratePanel" class="card hidden rate-panel">
   <h3>🎁 ของทั้งหมดในกล่องจุ่ม</h3>
@@ -67,4 +68,3 @@
 <script src="game.js"></script>
 </body>
 </html>
-<script></script>
