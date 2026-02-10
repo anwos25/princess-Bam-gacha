@@ -269,4 +269,56 @@ input::-moz-placeholder{
 input{
   -webkit-text-fill-color: #ff8fbf;
 }
+.loading{
+  font-size:20px;
+  color:#ff6fae;
+  animation:pulse 0.8s infinite;
+}
+
+@keyframes pulse{
+  0%{opacity:.4}
+  50%{opacity:1}
+  100%{opacity:.4}
+}
+.prize-common{animation:pop .3s ease;}
+.prize-rare{animation:pop .4s ease;}
+.prize-epic{animation:pop .5s ease;}
+.prize-secret{
+  animation:secretPop .6s ease;
+}
+
+@keyframes secretPop{
+  0%{transform:scale(.5) rotate(-5deg);opacity:0}
+  70%{transform:scale(1.1) rotate(3deg)}
+  100%{transform:scale(1) rotate(0)}
+}
+.shake{
+  animation:shake .4s;
+}
+
+@keyframes shake{
+  0%{transform:translateX(0)}
+  25%{transform:translateX(-4px)}
+  50%{transform:translateX(4px)}
+  75%{transform:translateX(-4px)}
+  100%{transform:translateX(0)}
+}
+  .confetti{
+  position:fixed;
+  top:-20px;
+  width:10px;
+  height:14px;
+  border-radius:2px;
+  z-index:9999; /* ⭐ สูงกว่าทุกอย่าง */
+  pointer-events:none;
+  animation:confettiFall linear forwards;
+}
+
+@keyframes confettiFall{
+  to{
+    transform:translateY(110vh) rotate(720deg);
+    opacity:0;
+  }
+}
+
 

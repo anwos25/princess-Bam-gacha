@@ -108,30 +108,75 @@ updateRollUI();
 
 /* ---------- draw ---------- */
 function drawPrize(){
-  let roll = Math.random() * 100;
-  let acc = 0;
+  showPopup("🎰 กำลังสุ่ม...", "ลุ้นอยู่เลยยย 💓");
 
-  for(const p of prizes){
-    acc += p.rate;
-    if(roll <= acc){
-      givePrize(p);
-      return;
+  setTimeout(()=>{
+    let roll = Math.random() * 100;
+    let acc = 0;
+
+    for(const p of prizes){
+      acc += p.rate;
+      if(roll <= acc){
+        givePrize(p);
+        return;
+      }
     }
-  }
 
-  // ⭐ ถ้าไม่เข้าเงื่อนไขไหนเลย → ให้รางวัลสุดท้าย
-  givePrize(prizes[prizes.length - 1]);
+    givePrize(prizes[prizes.length - 1]);
+  }, 1200); // ⏳ เวลาลุ้น
 }
 
 function givePrize(p){
   total += p.money;
   totalEl.innerText = total;
 
+  let cls = "prize-common";
+  if(p.rate <= 1) cls = "prize-secret";
+  else if(p.rate <= 5) cls = "prize-epic";
+  else if(p.rate <= 10) cls = "prize-rare";
+
+  popupTitle.className = cls;
+
   showPopup(
-    p.secret ? "👑 SECRET!" : "🎁 ได้ของแล้ว!",
+    p.secret ? "👑 SECRET!!!" : "🎁 ได้แล้ว!",
     `${p.name}\n+${p.money} บาท 💰`
   );
+  setTimeout(()=>{
+    popConfetti(p.secret ? 80 : 30, p.secret);
+  }, 200);
+
+  if(p.secret){
+  document.body.classList.add("shake");
+  setTimeout(()=>document.body.classList.remove("shake"),400);
 }
+
+}
+
+function popConfetti(amount = 30, secret = false){
+  const colors = secret
+    ? ["#ff4fa0","#ffd1e8","#ff85c1","#fff"]
+    : ["#ff7fbf","#ffd6e8","#ffb3d9"];
+
+  for(let i=0;i<amount;i++){
+    const conf = document.createElement("div");
+    conf.className = "confetti";
+
+    conf.style.left = Math.random() * 100 + "vw";
+    conf.style.backgroundColor =
+      colors[Math.floor(Math.random() * colors.length)];
+
+    conf.style.animationDuration =
+      (2 + Math.random() * 2) + "s";
+
+    conf.style.transform =
+      `rotate(${Math.random() * 360}deg)`;
+
+    document.body.appendChild(conf);
+
+    setTimeout(() => conf.remove(), 4500);
+  }
+}
+
 
 
 /* ---------- quiz ---------- */
