@@ -83,6 +83,20 @@ button{
   from{transform:scale(.85);opacity:0}
   to{transform:scale(1);opacity:1}
 }
+.tier{
+  margin-top:14px;
+  font-weight:500;
+  color:#ff4fa0;
+}
+.common{color:#6bcf9c;}
+.rare{color:#5aa9ff;}
+.epic{color:#b07cff;}
+.legendary{color:#ffb703;}
+.secret{
+  color:#ff4fa0;
+  text-shadow:0 0 6px rgba(255,79,160,.6);
+}
+
 </style>
 </head>
 
@@ -99,10 +113,40 @@ button{
 
 <div class="container">
   <h2>👑 กล่องจุ่มเจ้าหงิงแบมมม 👑</h2>
-  <p>เค้าทำอันนี้ไว้ให้แบมคนเดียวนะครับ<br>ลองจุ่มดูนะ 🩷</p>
+  <p>เค้าทำอันนี้ไว้ให้แบมมเยยย<br>ลองจุ่มดูนะครับ 🩷</p>
 
   <div class="card">
-    <button onclick="gacha()">🎁 จุ่ม💗</button>
+    <button onclick="gacha()">🎁 จุ่ม 💗</button>
+    <button onclick="togglePrizes()">📜 ดูของที่มีทั้งหมด</button>
+<div id="prizeList" class="card hidden">
+  <h3>🎁 ของทั้งหมดในกล่องจุ่ม</h3>
+
+  <div class="tier common">🟢 Common</div>
+  <p>🍫 ทิวลี่ลูกบอล — 50 บาท (20%)</p>
+  <p>🍫 ป้อกกาแลต — 50 บาท (20%)</p>
+  <p>🧡 ชาไทย — 70 บาท (15%)</p>
+
+  <div class="tier rare">🔵 Rare</div>
+  <p>🧋 ชานมเฉาก๊วย — 80 บาท (12%)</p>
+  <p>🍓 เบอร์รี่ — 100 บาท (10%)</p>
+
+  <div class="tier epic">🟣 Epic</div>
+  <p>🍫 ช็อกโกแลตปั่น — 90 บาท (8%)</p>
+  <p>🍜 หมี่ขาวน้ำตกเนื้อพิเศษ — 120 บาท (7%)</p>
+
+  <div class="tier legendary">🟡 Legendary</div>
+  <p>🍰 เค้ก — 150 บาท (5%)</p>
+  <p>🐱 ค่าแมวของแบม — 120 บาท (2%)</p>
+
+  <div class="tier secret">👑 SECRET</div>
+  <p>👑 เจ้าหงิงแบมมม — 200 บาท (1%)</p>
+
+  <p style="font-size:14px;color:#ff4fa0">
+  เอาอานหนายยย 🩷
+</p>
+
+</div>
+
 
 
     <div class="money">💰 เงินสะสม: <span id="total">0</span> บาท</div>
@@ -112,6 +156,10 @@ button{
 </div>
 
 <script>
+  function togglePrizes(){
+  document.getElementById("prizeList").classList.toggle("hidden");
+}
+
 /* popup */
 function showPopup(title, text){
   document.getElementById("popup-title").innerText = title;
@@ -127,17 +175,22 @@ let total = 0;
 let freeUsed = false;
 
 const prizes = [
- {name:"🍰 เค้ก", money:150},
- {name:"🍫 ทิวลี่ลูกบอล", money:50},
- {name:"🍫 Break Supa", money:50},
- {name:"🧋 ชานมเฉาก๊วย", money:80},
- {name:"🍓 เบอร์รี่", money:100},
- {name:"🍫 ช็อกโกแลตปั่น", money:90},
- {name:"🧡 ชาไทย", money:70},
- {name:"🍜 หมี่ขาวน้ำตกเนื้อพิเศษ", money:120},
- {name:"🐱 ค่าแมวของแบม", money:120},
- {name:"👑 เจ้าหญิงสีชมพู", money:100}
+  {name:"🍫 ทิวลี่ลูกบอล", money:50, rate:20},
+  {name:"🍫 Break Supa", money:50, rate:20},
+  {name:"🧡 ชาไทย", money:70, rate:15},
+
+  {name:"🧋 ชานมเฉาก๊วย", money:80, rate:12},
+  {name:"🍓 เบอร์รี่", money:100, rate:10},
+
+  {name:"🍫 ช็อกโกแลตปั่น", money:90, rate:8},
+  {name:"🍜 หมี่ขาวน้ำตกเนื้อพิเศษ", money:120, rate:7},
+
+  {name:"🍰 เค้ก", money:150, rate:5},
+  {name:"🐱 ค่าแมวของแบม", money:120, rate:2},
+
+  {name:"👑 เจ้าหงิงแบมมม", money:200, rate:1, secret:true}
 ];
+
 
 function gacha(){
   if(!freeUsed){
@@ -150,17 +203,36 @@ function gacha(){
 }
 
 function drawPrize(){
-  if(prizes.length === 0) return;
-  const i = Math.floor(Math.random()*prizes.length);
-  const item = prizes.splice(i,1)[0];
+  const roll = Math.random() * 100;
+  let acc = 0;
+  let item = null;
+
+  for(const p of prizes){
+    acc += p.rate;
+    if(roll <= acc){
+      item = p;
+      break;
+    }
+  }
+
+  if(!item) return;
+
   total += item.money;
   document.getElementById("total").innerText = total;
 
-  showPopup(
-    "🎁 จุ่มได้แล้ว!",
-    `${item.name}\nได้รับ ${item.money} บาท 💰`
-  );
+  if(item.secret){
+    showPopup(
+      "👑 SECRET!",
+      `เธอจุ่มได้SECRET!!\n${item.name}\n+${item.money} บาท 💖`
+    );
+  }else{
+    showPopup(
+      "🎁 เย่!! เธอจุ่มด้ายยย",
+      `${item.name}\nได้รับ ${item.money} บาท 💰`
+    );
+  }
 }
+
 
 function showQuiz(){
   const q = document.getElementById("quiz");
@@ -184,7 +256,7 @@ function check(ans){
   const d = document.getElementById("q1").value.trim();
   const c = document.getElementById("q2").value.trim();
 
-  if(d==="ใส่วันเกิดอุ้ม" && c==="ใส่สีที่ชอบ" && ans==="ยิ้ม"){
+  if(d==="25" && c==="สีน้ำเงิน" && ans==="ยิ้ม"){
     showPopup(
       "💖 ปลดล็อกสำเร็จ",
       "แบมจำอุ้มได้หมดเลย 🩷\nของที่เหลือทั้งหมดเป็นของแบมนะ"
