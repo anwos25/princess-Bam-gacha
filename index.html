@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Princess Pink Gacha</title>
+<title>กล่องจุ่มเจ้าหงิงแบมมม</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;500&display=swap" rel="stylesheet">
 
@@ -35,25 +35,26 @@ button{
   border-radius:999px;
   padding:14px 28px;
   font-size:18px;
+  margin:6px;
 }
-.hidden{display:none;}
+.hidden{display:none !important;}
+
 .money{
   font-size:22px;
   color:#ff4fa0;
   margin-top:10px;
 }
+
+/* popup */
 .popup{
   position:fixed;
-  top:0; left:0;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,0.4);
+  inset:0;
+  background:rgba(0,0,0,0.45);
   display:flex;
   justify-content:center;
   align-items:center;
   z-index:999;
 }
-
 .popup-card{
   background:white;
   border-radius:28px;
@@ -61,31 +62,37 @@ button{
   width:85%;
   max-width:320px;
   text-align:center;
-  animation:pop .3s ease;
+  animation:pop .25s ease;
 }
-
 .popup-card h3{
   color:#ff4fa0;
   margin-bottom:10px;
 }
-
 .popup-card p{
   font-size:16px;
   line-height:1.6;
 }
 
 @keyframes pop{
-  from{transform:scale(.8);opacity:0}
+  from{transform:scale(.85);opacity:0}
   to{transform:scale(1);opacity:1}
 }
-
 </style>
 </head>
 
 <body>
-<div class="container">
 
-  <h2>👑 Princess Pink Gacha 👑</h2>
+<!-- POPUP (ต้องอยู่ก่อน script) -->
+<div id="popup" class="popup hidden" onclick="closePopup()">
+  <div class="popup-card" onclick="event.stopPropagation()">
+    <h3 id="popup-title"></h3>
+    <p id="popup-text"></p>
+    <button onclick="closePopup()">โอเค 🩷</button>
+  </div>
+</div>
+
+<div class="container">
+  <h2>👑 กล่องจุ่มเจ้าหงิงแบมมม 👑</h2>
   <p>เว็บนี้ทำไว้ให้แบมคนเดียว<br>ถ้าแบมชอบสุ่ม… ลองดูนะ 🩷</p>
 
   <div class="card">
@@ -94,20 +101,20 @@ button{
   </div>
 
   <div id="quiz" class="card hidden"></div>
-
 </div>
 
 <script>
+/* popup */
 function showPopup(title, text){
   document.getElementById("popup-title").innerText = title;
   document.getElementById("popup-text").innerText = text;
   document.getElementById("popup").classList.remove("hidden");
 }
-
 function closePopup(){
   document.getElementById("popup").classList.add("hidden");
 }
 
+/* game state */
 let total = 0;
 let freeUsed = false;
 
@@ -124,34 +131,27 @@ const prizes = [
  {name:"👑 เจ้าหญิงสีชมพู", money:100}
 ];
 
-<div id="popup" class="popup hidden">
-  <div class="popup-card">
-    <h3 id="popup-title">title</h3>
-    <p id="popup-text">text</p>
-    <button onclick="closePopup()">โอเค 🩷</button>
-  </div>
-</div>
-
 function gacha(){
   if(!freeUsed){
     freeUsed = true;
     drawPrize();
     showQuiz();
   }else{
-    alert("ต้องตอบคำถามก่อนนะ 🩷");
+    showPopup("⛔ ยังจุ่มไม่ได้", "ต้องตอบคำถามก่อนนะ 🩷");
   }
 }
 
 function drawPrize(){
+  if(prizes.length === 0) return;
   const i = Math.floor(Math.random()*prizes.length);
   const item = prizes.splice(i,1)[0];
   total += item.money;
   document.getElementById("total").innerText = total;
-  showPopup(
-  "🎁 จุ่มได้แล้ว!",
-  `${item.name}\nได้รับ ${item.money} บาท 💰`
-);
 
+  showPopup(
+    "🎁 จุ่มได้แล้ว!",
+    `${item.name}\nได้รับ ${item.money} บาท 💰`
+  );
 }
 
 function showQuiz(){
@@ -178,17 +178,12 @@ function check(ans){
 
   if(d==="ใส่วันเกิดอุ้ม" && c==="ใส่สีที่ชอบ" && ans==="ยิ้ม"){
     showPopup(
-  "💖 ปลดล็อกสำเร็จ",
-  "แบมจำอุ้มได้หมดเลย 🩷\nของที่เหลือทั้งหมดเป็นของแบมนะ"
-);
-
+      "💖 ปลดล็อกสำเร็จ",
+      "แบมจำอุ้มได้หมดเลย 🩷\nของที่เหลือทั้งหมดเป็นของแบมนะ"
+    );
     while(prizes.length>0){ drawPrize(); }
   }else{
-    showPopup(
-  "ลองอีกนิดนะ",
-  "ไม่เป็นไรเลย เรารอได้เสมอ 😊"
-);
-
+    showPopup("ลองอีกนิดนะ", "ไม่เป็นไรเลย เรารอได้เสมอ 😊");
   }
 }
 </script>
