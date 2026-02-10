@@ -233,3 +233,40 @@ button{
   font-size:14px;
   color:#ff4fa0;
 }
+.roll-box{
+  background:none;
+  padding:0;
+  border-radius:0;
+  margin-top:8px;
+  font-size:15px;
+  color:#ff6fae;
+}
+
+
+.roll-box span{
+  font-weight:600;
+}
+.roll-zero{
+  color:#999;
+}
+/* แก้ font placeholder ให้ตรงกับ Prompt */
+input,
+input::placeholder{
+  font-family:'Prompt', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* สำหรับ Safari / iOS */
+input::-webkit-input-placeholder{
+  font-family:'Prompt', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* สำหรับ Firefox */
+input::-moz-placeholder{
+  font-family:'Prompt', sans-serif;
+}
+
+/* กัน Android บางรุ่นเพี้ยน */
+input{
+  -webkit-text-fill-color: #ff8fbf;
+}
+
