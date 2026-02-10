@@ -42,6 +42,43 @@ button{
   color:#ff4fa0;
   margin-top:10px;
 }
+.popup{
+  position:fixed;
+  top:0; left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.4);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:999;
+}
+
+.popup-card{
+  background:white;
+  border-radius:28px;
+  padding:25px;
+  width:85%;
+  max-width:320px;
+  text-align:center;
+  animation:pop .3s ease;
+}
+
+.popup-card h3{
+  color:#ff4fa0;
+  margin-bottom:10px;
+}
+
+.popup-card p{
+  font-size:16px;
+  line-height:1.6;
+}
+
+@keyframes pop{
+  from{transform:scale(.8);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+
 </style>
 </head>
 
@@ -61,6 +98,16 @@ button{
 </div>
 
 <script>
+function showPopup(title, text){
+  document.getElementById("popup-title").innerText = title;
+  document.getElementById("popup-text").innerText = text;
+  document.getElementById("popup").classList.remove("hidden");
+}
+
+function closePopup(){
+  document.getElementById("popup").classList.add("hidden");
+}
+
 let total = 0;
 let freeUsed = false;
 
@@ -77,6 +124,14 @@ const prizes = [
  {name:"👑 เจ้าหญิงสีชมพู", money:100}
 ];
 
+<div id="popup" class="popup hidden">
+  <div class="popup-card">
+    <h3 id="popup-title">title</h3>
+    <p id="popup-text">text</p>
+    <button onclick="closePopup()">โอเค 🩷</button>
+  </div>
+</div>
+
 function gacha(){
   if(!freeUsed){
     freeUsed = true;
@@ -92,7 +147,11 @@ function drawPrize(){
   const item = prizes.splice(i,1)[0];
   total += item.money;
   document.getElementById("total").innerText = total;
-  alert(`${item.name}\nได้รับ ${item.money} บาท 💰`);
+  showPopup(
+  "🎁 จุ่มได้แล้ว!",
+  `${item.name}\nได้รับ ${item.money} บาท 💰`
+);
+
 }
 
 function showQuiz(){
@@ -118,10 +177,18 @@ function check(ans){
   const c = document.getElementById("q2").value.trim();
 
   if(d==="ใส่วันเกิดอุ้ม" && c==="ใส่สีที่ชอบ" && ans==="ยิ้ม"){
-    alert("แบมจำอุ้มได้หมดเลย 🩷\nของที่เหลือทั้งหมดเป็นของแบมนะ");
+    showPopup(
+  "💖 ปลดล็อกสำเร็จ",
+  "แบมจำอุ้มได้หมดเลย 🩷\nของที่เหลือทั้งหมดเป็นของแบมนะ"
+);
+
     while(prizes.length>0){ drawPrize(); }
   }else{
-    alert("ลองใหม่ได้นะ เรารอได้ 😊");
+    showPopup(
+  "ลองอีกนิดนะ",
+  "ไม่เป็นไรเลย เรารอได้เสมอ 😊"
+);
+
   }
 }
 </script>
