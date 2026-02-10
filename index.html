@@ -4,46 +4,126 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Princess Pink Gacha</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;500&display=swap" rel="stylesheet">
+
 <style>
 body{
-  font-family: 'Prompt', sans-serif;
-  background:#ffe6f0;
-  text-align:center;
-  padding:20px;
+  margin:0;
+  font-family:'Prompt',sans-serif;
+  background:linear-gradient(#ffe6f0,#ffd6e8);
+  display:flex;
+  justify-content:center;
 }
-.box{
-  background:white;
-  border-radius:20px;
+.container{
+  max-width:390px;
+  width:100%;
   padding:20px;
-  margin:20px auto;
-  max-width:350px;
+  text-align:center;
+}
+.card{
+  background:white;
+  border-radius:24px;
+  padding:20px;
+  margin-top:20px;
+  box-shadow:0 10px 30px rgba(255,105,180,.25);
 }
 button{
   background:#ff7fbf;
   color:white;
   border:none;
-  padding:15px 25px;
-  border-radius:30px;
+  border-radius:999px;
+  padding:14px 28px;
   font-size:18px;
 }
 .hidden{display:none;}
+.money{
+  font-size:22px;
+  color:#ff4fa0;
+  margin-top:10px;
+}
 </style>
 </head>
 
 <body>
+<div class="container">
 
-<div class="box">
-  <h2>🎀 Princess Pink Gacha 🎀</h2>
-  <p>เว็บนี้ทำไว้ให้แบมคนเดียว<br>ถ้าชอบสุ่ม… ลองจุ่มดูนะ 🩷</p>
-  <button onclick="gacha()">🎁 จุ่มเลย</button>
-  <p>💰 เงินสะสม: <span id="total">0</span> บาท</p>
+  <h2>👑 Princess Pink Gacha 👑</h2>
+  <p>เว็บนี้ทำไว้ให้แบมคนเดียว<br>ถ้าแบมชอบสุ่ม… ลองดูนะ 🩷</p>
+
+  <div class="card">
+    <button onclick="gacha()">🎁 จุ่มของเจ้าหญิง</button>
+    <div class="money">💰 เงินสะสม: <span id="total">0</span> บาท</div>
+  </div>
+
+  <div id="quiz" class="card hidden"></div>
+
 </div>
 
-<div id="quiz" class="box hidden"></div>
-
 <script>
-// ใส่ JS ชั่วโมงที่ 3
+let total = 0;
+let freeUsed = false;
+
+const prizes = [
+ {name:"🍰 เค้ก", money:150},
+ {name:"🍫 ทิวลี่ลูกบอล", money:50},
+ {name:"🍫 Break Supa", money:50},
+ {name:"🧋 ชานมเฉาก๊วย", money:80},
+ {name:"🍓 เบอร์รี่", money:100},
+ {name:"🍫 ช็อกโกแลตปั่น", money:90},
+ {name:"🧡 ชาไทย", money:70},
+ {name:"🍜 หมี่ขาวน้ำตกเนื้อพิเศษ", money:120},
+ {name:"🐱 ค่าแมวของแบม", money:120},
+ {name:"👑 เจ้าหญิงสีชมพู", money:100}
+];
+
+function gacha(){
+  if(!freeUsed){
+    freeUsed = true;
+    drawPrize();
+    showQuiz();
+  }else{
+    alert("ต้องตอบคำถามก่อนนะ 🩷");
+  }
+}
+
+function drawPrize(){
+  const i = Math.floor(Math.random()*prizes.length);
+  const item = prizes.splice(i,1)[0];
+  total += item.money;
+  document.getElementById("total").innerText = total;
+  alert(`${item.name}\nได้รับ ${item.money} บาท 💰`);
+}
+
+function showQuiz(){
+  const q = document.getElementById("quiz");
+  q.classList.remove("hidden");
+  q.innerHTML = `
+    <h3>💖 ตอบคำถามเกี่ยวกับอุ้ม 💖</h3>
+
+    <p>1️⃣ อุ้มเกิดวันที่เท่าไหร่</p>
+    <input id="q1"><br><br>
+
+    <p>2️⃣ อุ้มชอบสีอะไร</p>
+    <input id="q2"><br><br>
+
+    <p>3️⃣ อุ้มทำเว็บนี้ให้แบมเพราะอะไร</p>
+    <button onclick="check('ยิ้ม')">เพราะอยากให้แบมยิ้ม</button>
+    <button onclick="check('อื่น')">เพราะวาเลนไทน์</button>
+  `;
+}
+
+function check(ans){
+  const d = document.getElementById("q1").value.trim();
+  const c = document.getElementById("q2").value.trim();
+
+  if(d==="ใส่วันเกิดอุ้ม" && c==="ใส่สีที่ชอบ" && ans==="ยิ้ม"){
+    alert("แบมจำอุ้มได้หมดเลย 🩷\nของที่เหลือทั้งหมดเป็นของแบมนะ");
+    while(prizes.length>0){ drawPrize(); }
+  }else{
+    alert("ลองใหม่ได้นะ เรารอได้ 😊");
+  }
+}
 </script>
 
 </body>
