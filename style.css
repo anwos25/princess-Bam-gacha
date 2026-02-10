@@ -1,0 +1,132 @@
+body{
+  margin:0;
+  font-family:'Prompt',sans-serif;
+  background:linear-gradient(#ffe6f0,#ffd6e8);
+  display:flex;
+  justify-content:center;
+}
+.container{
+  max-width:390px;
+  width:100%;
+  padding:20px;
+  text-align:center;
+}
+.card{
+  background:white;
+  border-radius:24px;
+  padding:20px;
+  margin-top:20px;
+  box-shadow:0 10px 30px rgba(255,105,180,.25);
+}
+button{
+  background:#ff7fbf;
+  color:white;
+  border:none;
+  border-radius:999px;
+  padding:14px 28px;
+  font-size:18px;
+  margin:6px;
+
+  /* 🔧 แก้เรื่อง emoji */
+  line-height:1;
+  vertical-align:middle;
+  font-family:'Prompt', system-ui, -apple-system, BlinkMacSystemFont;
+}
+
+.hidden{display:none !important;}
+
+.money{
+  font-size:22px;
+  color:#ff4fa0;
+  margin-top:10px;
+}
+
+/* popup */
+.popup{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.45);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:999;
+}
+.popup-card{
+  background:white;
+  border-radius:28px;
+  padding:25px;
+  width:85%;
+  max-width:320px;
+  text-align:center;
+  animation:pop .25s ease;
+}
+.popup-card h3{
+  color:#ff4fa0;
+  margin-bottom:10px;
+}
+.popup-card p{
+  font-size:16px;
+  line-height:1.6;
+}
+
+@keyframes pop{
+  from{transform:scale(.85);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+.tier{
+  margin-top:14px;
+  font-weight:500;
+  color:#ff4fa0;
+}
+.common{color:#6bcf9c;}
+.rare{color:#5aa9ff;}
+.epic{color:#b07cff;}
+.legendary{color:#ffb703;}
+.secret{
+  color:#ff4fa0;
+  text-shadow:0 0 6px rgba(255,79,160,.6);
+}
+.quiz-item{
+  margin:16px 0;
+  text-align:left;
+}
+
+.quiz-item label{
+  font-size:14px;
+  color:#ff4fa0;
+}
+
+.quiz-item input{
+  width:100%;
+  padding:10px;
+  border-radius:12px;
+  border:1px solid #ffd0e5;
+  margin-top:6px;
+  font-size:16px;
+}
+
+.quiz-choices{
+  display:flex;
+  gap:8px;
+  margin-top:8px;
+}
+
+.quiz-choices button{
+  flex:1;
+  background:#ffe6f0;
+  color:#ff4fa0;
+  border:1px solid #ffb3d9;
+  font-size:14px;
+}
+
+.quiz-choices button.active{
+  background:#ff7fbf;
+  color:white;
+}
+
+.submit-btn{
+  width:100%;
+  margin-top:18px;
+  background:#ff4fa0;
+  font-size:18px;
+}

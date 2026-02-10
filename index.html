@@ -4,105 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>กล่องจุ่มเจ้าหงิงแบมมม</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;500&display=swap" rel="stylesheet">
-
-<style>
-body{
-  margin:0;
-  font-family:'Prompt',sans-serif;
-  background:linear-gradient(#ffe6f0,#ffd6e8);
-  display:flex;
-  justify-content:center;
-}
-.container{
-  max-width:390px;
-  width:100%;
-  padding:20px;
-  text-align:center;
-}
-.card{
-  background:white;
-  border-radius:24px;
-  padding:20px;
-  margin-top:20px;
-  box-shadow:0 10px 30px rgba(255,105,180,.25);
-}
-button{
-  background:#ff7fbf;
-  color:white;
-  border:none;
-  border-radius:999px;
-  padding:14px 28px;
-  font-size:18px;
-  margin:6px;
-
-  /* 🔧 แก้เรื่อง emoji */
-  line-height:1;
-  vertical-align:middle;
-  font-family:'Prompt', system-ui, -apple-system, BlinkMacSystemFont;
-}
-
-.hidden{display:none !important;}
-
-.money{
-  font-size:22px;
-  color:#ff4fa0;
-  margin-top:10px;
-}
-
-/* popup */
-.popup{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.45);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  z-index:999;
-}
-.popup-card{
-  background:white;
-  border-radius:28px;
-  padding:25px;
-  width:85%;
-  max-width:320px;
-  text-align:center;
-  animation:pop .25s ease;
-}
-.popup-card h3{
-  color:#ff4fa0;
-  margin-bottom:10px;
-}
-.popup-card p{
-  font-size:16px;
-  line-height:1.6;
-}
-
-@keyframes pop{
-  from{transform:scale(.85);opacity:0}
-  to{transform:scale(1);opacity:1}
-}
-.tier{
-  margin-top:14px;
-  font-weight:500;
-  color:#ff4fa0;
-}
-.common{color:#6bcf9c;}
-.rare{color:#5aa9ff;}
-.epic{color:#b07cff;}
-.legendary{color:#ffb703;}
-.secret{
-  color:#ff4fa0;
-  text-shadow:0 0 6px rgba(255,79,160,.6);
-}
-
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
+<link rel="stylesheet" href="style.css">
+
 
 <body>
 
-<!-- POPUP (ต้องอยู่ก่อน script) -->
+<!-- popup -->
 <div id="popup" class="popup hidden" onclick="closePopup()">
   <div class="popup-card" onclick="event.stopPropagation()">
     <h3 id="popup-title"></h3>
@@ -113,160 +23,17 @@ button{
 
 <div class="container">
   <h2>👑 กล่องจุ่มเจ้าหงิงแบมมม 👑</h2>
-  <p>เค้าทำอันนี้ไว้ให้แบมมเยยย<br>ลองจุ่มดูนะครับ 🩷</p>
+  <p>เค้าทำอันนี้ไว้ให้แบมมเยยย 🩷</p>
 
   <div class="card">
     <button onclick="gacha()">🎁 จุ่ม 💗</button>
-    <button onclick="togglePrizes()">📜 ดูของที่มีทั้งหมด</button>
-<div id="prizeList" class="card hidden">
-  <h3>🎁 ของทั้งหมดในกล่องจุ่ม</h3>
-
-  <div class="tier common">🟢 Common</div>
-  <p>🍫 ทิวลี่ลูกบอล — 50 บาท (20%)</p>
-  <p>🍫 ป้อกกาแลต — 50 บาท (20%)</p>
-  <p>🧡 ชาไทย — 70 บาท (15%)</p>
-
-  <div class="tier rare">🔵 Rare</div>
-  <p>🧋 ชานมเฉาก๊วย — 80 บาท (12%)</p>
-  <p>🍓 เบอร์รี่ — 100 บาท (10%)</p>
-
-  <div class="tier epic">🟣 Epic</div>
-  <p>🍫 ช็อกโกแลตปั่น — 90 บาท (8%)</p>
-  <p>🍜 หมี่ขาวน้ำตกเนื้อพิเศษ — 120 บาท (7%)</p>
-
-  <div class="tier legendary">🟡 Legendary</div>
-  <p>🍰 เค้ก — 150 บาท (5%)</p>
-  <p>🐱 ค่าแมวของแบม — 120 บาท (2%)</p>
-
-  <div class="tier secret">👑 SECRET</div>
-  <p>👑 เจ้าหงิงแบมมม — 200 บาท (1%)</p>
-
-  <p style="font-size:14px;color:#ff4fa0">
-  เอาอานหนายยย 🩷
-</p>
-
-</div>
-
-
-
     <div class="money">💰 เงินสะสม: <span id="total">0</span> บาท</div>
   </div>
 
   <div id="quiz" class="card hidden"></div>
 </div>
 
-<script>
-  function togglePrizes(){
-  document.getElementById("prizeList").classList.toggle("hidden");
-}
-
-/* popup */
-function showPopup(title, text){
-  document.getElementById("popup-title").innerText = title;
-  document.getElementById("popup-text").innerText = text;
-  document.getElementById("popup").classList.remove("hidden");
-}
-function closePopup(){
-  document.getElementById("popup").classList.add("hidden");
-}
-
-/* game state */
-let total = 0;
-let freeUsed = false;
-
-const prizes = [
-  {name:"🍫 ทิวลี่ลูกบอล", money:50, rate:20},
-  {name:"🍫 Break Supa", money:50, rate:20},
-  {name:"🧡 ชาไทย", money:70, rate:15},
-
-  {name:"🧋 ชานมเฉาก๊วย", money:80, rate:12},
-  {name:"🍓 เบอร์รี่", money:100, rate:10},
-
-  {name:"🍫 ช็อกโกแลตปั่น", money:90, rate:8},
-  {name:"🍜 หมี่ขาวน้ำตกเนื้อพิเศษ", money:120, rate:7},
-
-  {name:"🍰 เค้ก", money:150, rate:5},
-  {name:"🐱 ค่าแมวของแบม", money:120, rate:2},
-
-  {name:"👑 เจ้าหงิงแบมมม", money:200, rate:1, secret:true}
-];
-
-
-function gacha(){
-  if(!freeUsed){
-    freeUsed = true;
-    drawPrize();
-    showQuiz();
-  }else{
-    showPopup("⛔ ยังจุ่มไม่ได้", "ต้องตอบคำถามก่อนนะ 🩷");
-  }
-}
-
-function drawPrize(){
-  const roll = Math.random() * 100;
-  let acc = 0;
-  let item = null;
-
-  for(const p of prizes){
-    acc += p.rate;
-    if(roll <= acc){
-      item = p;
-      break;
-    }
-  }
-
-  if(!item) return;
-
-  total += item.money;
-  document.getElementById("total").innerText = total;
-
-  if(item.secret){
-    showPopup(
-      "👑 SECRET!",
-      `เธอจุ่มได้SECRET!!\n${item.name}\n+${item.money} บาท 💖`
-    );
-  }else{
-    showPopup(
-      "🎁 เย่!! เธอจุ่มด้ายยย",
-      `${item.name}\nได้รับ ${item.money} บาท 💰`
-    );
-  }
-}
-
-
-function showQuiz(){
-  const q = document.getElementById("quiz");
-  q.classList.remove("hidden");
-  q.innerHTML = `
-    <h3>💖 ตอบคำถามเกี่ยวกับอุ้ม 💖</h3>
-
-    <p>1️⃣ อุ้มเกิดวันที่เท่าไหร่</p>
-    <input id="q1"><br><br>
-
-    <p>2️⃣ อุ้มชอบสีอะไร</p>
-    <input id="q2"><br><br>
-
-    <p>3️⃣ อุ้มทำเว็บนี้ให้แบมเพราะอะไร</p>
-    <button onclick="check('ยิ้ม')">เพราะอยากให้แบมยิ้ม</button>
-    <button onclick="check('อื่น')">เพราะวาเลนไทน์</button>
-  `;
-}
-
-function check(ans){
-  const d = document.getElementById("q1").value.trim();
-  const c = document.getElementById("q2").value.trim();
-
-  if(d==="25" && c==="สีน้ำเงิน" && ans==="ยิ้ม"){
-    showPopup(
-      "💖 ปลดล็อกสำเร็จ",
-      "แบมจำอุ้มได้หมดเลย 🩷\nของที่เหลือทั้งหมดเป็นของแบมนะ"
-    );
-    while(prizes.length>0){ drawPrize(); }
-  }else{
-    showPopup("ลองอีกนิดนะ", "ไม่เป็นไรเลย เรารอได้เสมอ 😊");
-  }
-}
-</script>
-
+<script src="game.js"></script>
 </body>
 </html>
+<script></script>
