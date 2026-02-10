@@ -7,7 +7,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
-<link rel="stylesheet" href="style.css">
 
 
 <body>
@@ -27,6 +26,38 @@
 
   <div class="card">
     <button onclick="gacha()">🎁 จุ่ม 💗</button>
+    <div class="roll-box">
+  🎲 สิทธิจุ่มคงเหลือ: <span id="rolls">1</span> ครั้ง
+</div>
+
+    <button onclick="toggleRates()">📜 ดูเรต & ของทั้งหมด</button>
+
+<div id="ratePanel" class="card hidden rate-panel">
+  <h3>🎁 ของทั้งหมดในกล่องจุ่ม</h3>
+
+  <div class="rate-tier common">🟢 Common</div>
+  <p>🍫 ทิวลี่ลูกบอล — 50 บาท <span>20%</span></p>
+  <p>🍫 ป๊อกกาแลต — 50 บาท <span>20%</span></p>
+  <p>🧡 ชาไทย — 70 บาท <span>15%</span></p>
+
+  <div class="rate-tier rare">🔵 Rare</div>
+  <p>🧋 ชานมเฉาก๊วย — 80 บาท <span>12%</span></p>
+  <p>🍓 เบอร์รี่ — 100 บาท <span>10%</span></p>
+
+  <div class="rate-tier epic">🟣 Epic</div>
+  <p>🍫 ช็อกโกแลตปั่น — 90 บาท <span>8%</span></p>
+  <p>🍜 หมี่ขาวน้ำตกเนื้อพิเศษ — 120 บาท <span>7%</span></p>
+
+  <div class="rate-tier legendary">🟡 Legendary</div>
+  <p>🍰 เค้ก — 150 บาท <span>5%</span></p>
+  <p>🐱 ค่าแมวของแบม — 120 บาท <span>2%</span></p>
+
+  <div class="rate-tier secret">👑 SECRET</div>
+  <p class="secret-item">👑 เจ้าหงิงแบมมม — 200 บาท <span>1%</span></p>
+
+  <p class="rate-hint">อย่าเอาเยอะเค้าตังหมดแย้วว😔</p>
+</div>
+
     <div class="money">💰 เงินสะสม: <span id="total">0</span> บาท</div>
   </div>
 

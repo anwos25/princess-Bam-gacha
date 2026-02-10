@@ -186,3 +186,50 @@ button{
 #prizeList{
   animation:pop .25s ease;
 }
+.rate-panel{
+  animation:pop .25s ease;
+  text-align:left;
+}
+
+.rate-panel h3{
+  text-align:center;
+  color:#ff4fa0;
+  margin-bottom:12px;
+}
+
+.rate-panel p{
+  display:flex;
+  justify-content:space-between;
+  margin:6px 0;
+  font-size:15px;
+}
+
+.rate-panel span{
+  color:#ff4fa0;
+  font-weight:500;
+}
+
+.rate-tier{
+  margin-top:14px;
+  font-weight:600;
+}
+
+.rate-tier.common{color:#6bcf9c;}
+.rate-tier.rare{color:#5aa9ff;}
+.rate-tier.epic{color:#b07cff;}
+.rate-tier.legendary{color:#ffb703;}
+.rate-tier.secret{
+  color:#ff4fa0;
+  text-shadow:0 0 6px rgba(255,79,160,.6);
+}
+
+.secret-item{
+  text-shadow:0 0 6px rgba(255,79,160,.5);
+}
+
+.rate-hint{
+  margin-top:12px;
+  text-align:center;
+  font-size:14px;
+  color:#ff4fa0;
+}

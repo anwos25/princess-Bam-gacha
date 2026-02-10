@@ -7,11 +7,22 @@ function showPopup(title, text){
 function closePopup(){
   popup.classList.add("hidden");
 }
+function updateRollUI(){
+  rollsEl.innerText = rolls;
+  if(rolls <= 0){
+    rollsEl.parentElement.classList.add("roll-zero");
+  }else{
+    rollsEl.parentElement.classList.remove("roll-zero");
+  }
+}
 
 /* ---------- game state ---------- */
 let total = 0;
-let rolls = 1;          // จุ่มเริ่มต้น 1 ครั้ง
+let rolls = 1;   
+       // จุ่มเริ่มต้น 1 ครั้ง 
 let currentQuestion = 0;
+let quizFinished= false;
+
 
 const prizes = [
   {name:"🍫 ทิวลี่ลูกบอล", money:50, rate:20},
@@ -38,14 +49,24 @@ const questions = [
 /* ---------- gacha ---------- */
 function gacha(){
   if(rolls <= 0){
-    showPopup("⛔ ยังจุ่มไม่ได้","ตอบคำถามก่อนนะ 🩷");
+    showPopup("⛔ ยังจุ่มไม่ได้", "ตอบคำถามก่อนนะ 🩷");
     showQuiz();
     return;
   }
+
+  // ใช้สิทธิ์จุ่ม
   rolls--;
+updateRollUI();
+
   drawPrize();
   totalEl.innerText = total;
+
+  // ⭐ หลังจุ่มครั้งแรก ให้คำถามขึ้นทันที
+  if(currentQuestion < questions.length){
+    setTimeout(showQuiz, 600);
+  }
 }
+
 
 /* ---------- draw ---------- */
 function drawPrize(){
@@ -99,16 +120,37 @@ function submit(){
 }
 
 function answer(val){
+  if(quizFinished) return; // กันบั๊กซ้ำ
+
   const q = questions[currentQuestion];
   if(val === q.answer){
     rolls++;
-    showPopup("✅ ถูกต้อง","ได้จุ่มเพิ่ม 1 ครั้ง 🎁");
+updateRollUI();
+
+    showPopup("✅ ถูกต้อง", "ได้จุ่มเพิ่ม 1 ครั้ง 🎁");
   }else{
-    showPopup("❌ ไม่ตรง","ไม่เป็นไร ไปต่อได้ 😊");
+    showPopup("❌ ไม่ตรง", "ไม่เป็นไร ไปต่อได้ 😊");
   }
+
   currentQuestion++;
+
+  // ⭐ ถ้าถึงข้อสุดท้ายแล้ว
+  if(currentQuestion >= questions.length){
+    quizFinished = true;
+    setTimeout(() => {
+      showPopup(
+        "🎉 คำถามจบแล้ว",
+        "ใช้สิทธิ์จุ่มที่เหลือให้หมดได้เลยนะ 🩷"
+      );
+      quiz.classList.add("hidden");
+    }, 500);
+    return;
+  }
+
+  // ยังมีคำถามต่อ
   setTimeout(showQuiz, 600);
 }
+
 
 /* ---------- DOM ---------- */
 const popup = document.getElementById("popup");
@@ -116,3 +158,10 @@ const popupTitle = document.getElementById("popup-title");
 const popupText = document.getElementById("popup-text");
 const quiz = document.getElementById("quiz");
 const totalEl = document.getElementById("total");
+const rollsEl = document.getElementById("rolls");
+updateRollUI();
+
+
+function toggleRates(){
+  document.getElementById("ratePanel").classList.toggle("hidden");
+}
