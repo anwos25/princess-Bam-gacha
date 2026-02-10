@@ -25,8 +25,8 @@ let quizFinished= false;
 
 
 const prizes = [
-  {name:"🍫 ทิวลี่ลูกบอล", money:10, rate:20},
-  {name:"🍫 ป๊อกกาแลต", money:10, rate:20},
+  {name:"🍫 ทิวลี่ลูกบอล", money:10, rate:24.2},
+  {name:"🍫 ป๊อกกาแลต", money:10, rate:24.2},
   {name:"🧡 ชาไทย", money:20, rate:15},
   {name:"🧋 ชานมเฉาก๊วย", money:30, rate:12},
   {name:"🍓 เบอร์รี่", money:50, rate:10},
@@ -45,7 +45,7 @@ const questions = [
   },
   {
     q: "อุ้มชอบสีอะไรที่สุด 🎨",
-    hint: "พิมพ์แบบว่า ชมพู 🩷",
+    hint: "🩷 พิมพ์แบบว่า ชมพู",
     answer: "น้ำเงิน"
   },
   {
@@ -108,19 +108,31 @@ updateRollUI();
 
 /* ---------- draw ---------- */
 function drawPrize(){
-  let roll = Math.random()*100, acc=0;
+  let roll = Math.random() * 100;
+  let acc = 0;
+
   for(const p of prizes){
     acc += p.rate;
     if(roll <= acc){
-      total += p.money;
-      showPopup(
-        p.secret ? "👑 SECRET!" : "🎁 เย่!!",
-        `${p.name}\n+${p.money} บาท 💰`
-      );
+      givePrize(p);
       return;
     }
   }
+
+  // ⭐ ถ้าไม่เข้าเงื่อนไขไหนเลย → ให้รางวัลสุดท้าย
+  givePrize(prizes[prizes.length - 1]);
 }
+
+function givePrize(p){
+  total += p.money;
+  totalEl.innerText = total;
+
+  showPopup(
+    p.secret ? "👑 SECRET!" : "🎁 ได้ของแล้ว!",
+    `${p.name}\n+${p.money} บาท 💰`
+  );
+}
+
 
 /* ---------- quiz ---------- */
 function showQuiz(){
