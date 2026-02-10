@@ -36,7 +36,13 @@ button{
   padding:14px 28px;
   font-size:18px;
   margin:6px;
+
+  /* 🔧 แก้เรื่อง emoji */
+  line-height:1;
+  vertical-align:middle;
+  font-family:'Prompt', system-ui, -apple-system, BlinkMacSystemFont;
 }
+
 .hidden{display:none !important;}
 
 .money{
@@ -93,10 +99,12 @@ button{
 
 <div class="container">
   <h2>👑 กล่องจุ่มเจ้าหงิงแบมมม 👑</h2>
-  <p>เว็บนี้ทำไว้ให้แบมคนเดียว<br>ถ้าแบมชอบสุ่ม… ลองดูนะ 🩷</p>
+  <p>เค้าทำอันนี้ไว้ให้แบมคนเดียวนะครับ<br>ลองจุ่มดูนะ 🩷</p>
 
   <div class="card">
-    <button onclick="gacha()">🎁 จุ่มของเจ้าหญิง</button>
+    <button onclick="gacha()">🎁 จุ่ม💗</button>
+
+
     <div class="money">💰 เงินสะสม: <span id="total">0</span> บาท</div>
   </div>
 
