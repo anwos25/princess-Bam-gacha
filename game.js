@@ -75,14 +75,22 @@ function showQuiz(){
   }
 
   quiz.innerHTML = `
-    <h3>❓ คำถามที่ ${currentQuestion+1}</h3>
+  <h3>❓ คำถามที่ ${currentQuestion+1}</h3>
+  <div class="quiz-box">
     <p>${q.q}</p>
     ${
-      q.choices 
-      ? q.choices.map(c=>`<button onclick="answer('${c}')">${c}</button>`).join("")
-      : `<input id="ans"><button onclick="submit()">ตอบ</button>`
+      q.choices
+      ? q.choices.map(c=>`
+          <button onclick="answer('${c}')">${c}</button>
+        `).join("")
+      : `
+        <input id="ans" placeholder="พิมพ์คำตอบตรงนี้เลย 💖">
+        <button onclick="submit()">ตอบคำถาม</button>
+      `
     }
-  `;
+  </div>
+`;
+
 }
 
 function submit(){
